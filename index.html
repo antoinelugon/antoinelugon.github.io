@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151889404-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-151889404-1');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Antoine Lugon</title>
+  <link rel="stylesheet" href="css/master.css">
+  <link href="https://fonts.googleapis.com/css?family=Turret+Road&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="mHidden">
+    <svg version="1.1" id="eMail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+      <filter id="filter" width="200%" height="300%" x="-100%" y="-100%">
+        <!-- COLORS -->
+        <feFlood flood-color="#222" result="COLOR-black" />
+        <feFlood flood-color="#fff" result="COLOR-white" />
+        <!-- COLORS END -->
+
+        <!-- BOTTOM SPLASH -->
+        <feTurbulence baseFrequency="0.02" type="fractalNoise" numOctaves="1" seed="2" result="BOTTOM-SPLASH_10" />
+        <feGaussianBlur in="SourceAlpha" stdDeviation="0.4" result="BOTTOM-SPLASH_20" />
+        <feDisplacementMap scale="420" in="BOTTOM-SPLASH_20" in2="BOTTOM-SPLASH_10" result="BOTTOM-SPLASH_30" />
+        <feComposite operator="in" in="COLOR-black" in2="BOTTOM-SPLASH_30" result="BOTTOM-SPLASH_40" />
+        <!-- BOTTOM END -->
+
+        <!-- MIDDLE SPLASH -->
+        <feTurbulence baseFrequency="0.02" type="fractalNoise" numOctaves="1" seed="1" result="MIDDLE-SPLASH_10" />
+        <feGaussianBlur in="SourceAlpha" stdDeviation="0.4" result="MIDDLE-SPLASH_20" />
+        <feDisplacementMap in="MIDDLE-SPLASH_20" in2="MIDDLE-SPLASH_10" scale="25" result="MIDDLE-SPLASH_30" />
+        <feComposite operator="in" in="COLOR-black" in2="MIDDLE-SPLASH_30" result="MIDDLE-SPLASH_40" />
+        <!-- MIDDLE END -->
+        <feGaussianBlur stdDeviation="100" result="GAUSSIAN" />
+
+        <!-- LIGHT EFFECTS -->
+        <feMerge result="LIGHT-EFFECTS_10">
+          <feMergeNode in="GAUSSIAN" />
+          <feMergeNode in="BOTTOM-SPLASH_40" />
+          <feMergeNode in="MIDDLE-SPLASH_30" />
+        </feMerge>
+        <feColorMatrix type="matrix" values="0 0 0 0 0,
+        0 0 0 0 0,
+        0 0 0 0 0,
+        0 0 0 1 0" in="LIGHT-EFFECTS_10" result="LIGHT-EFFECTS_20" />
+        <feGaussianBlur stdDeviation="2" in="LIGHT-EFFECTS_20" result="LIGHT-EFFECTS_30" />
+        <feSpecularLighting surfaceScale="5" specularConstant=".75" specularExponent="30" lighting-color="#white" in="LIGHT-EFFECTS_30" result="LIGHT-EFFECTS_40">
+          <fePointLight x="-50" y="-100" z="400" />
+        </feSpecularLighting>
+        <feComposite operator="in" in="LIGHT-EFFECTS_40" in2="LIGHT-EFFECTS_20" result="LIGHT-EFFECTS_50" />
+        <feComposite operator="arithmetic" k1="0" k2="1" k3="1" k4="0" in="LIGHT-EFFECTS_10" in2="LIGHT-EFFECTS_50" result="LIGHT-EFFECTS_60" />
+      </filter>
+      <text id="filtered" x="50%" y="180" text-anchor="middle">antoine@lugon.ch</text>
+    </svg>
+  </div>
+
+  <a id="olympian" class="mHidden" href="files/Olympian-Regular.otf" download>
+  </a>
+
+  <div id="diapo">
+    <svg id="svgMe" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%">
+      <filter id="filterImg" width="120%" height="120%">
+        <feTurbulence id="turbuImg" type="turbulence" baseFrequency="0.005" numOctaves="5" result="turbulence" />
+        <feDisplacementMap id="dispImg" in2="turbulence" in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G" />
+        <feConvolveMatrix kernelMatrix="
+                        5 1 5
+                        0 1 0
+                        0 0 -10" />
+      </filter>
+      <image id="imgSVG" xlink:href="img/me.jpg" width="512px" x="0" y="0" height="530px" filter="url(#filterImg)"></image>
+    </svg>
+  </div>
+</body>
+
+<script type="text/javascript">
+  const txt = document.querySelector('#filtered');
+  const diapo = document.querySelector('#diapo');
+
+  const turbu = document.querySelector('#turbuImg');
+  const disp = document.querySelector('#dispImg');
+  const imgSVG = document.querySelector('#imgSVG');
+  const svgMe = document.querySelector('#svgMe');
+
+  const img = document.querySelector('#olympian');
+  img.addEventListener("mouseover", e => {
+    // highlight the mouseenter target
+    txt.textContent = 'merci!';
+  }, false);
+
+  img.addEventListener('mouseleave', e => {
+    txt.textContent = 'antoine@lugon.ch';
+  });
+
+  window.onmousemove = logMouseMove;
+
+  function logMouseMove(e) {
+    e = event || window.event;
+    mousePos = {
+      x: e.clientX,
+      y: e.clientY
+    };
+    console.log(mousePos);
+    //txt.textContent = e.clientX;
+    //svgMe.setAttribute('transform', e.clientY - 250);
+    //svgMe.setAttribute('x', e.clientX - 250);
+    imgSVG.setAttribute('transform', 'skewY(' + (e.clientY / 10 + 500) + ') skewX(' + (e.clientX / 10 + 500) + ')');
+    //turbu.setAttribute('baseFrequency', e.clientX*0.0001);
+  }
+  diapo.onclick = e => {
+    if (event.altKey && event.shiftKey) {
+      turbu.setAttribute('baseFrequency', '0');
+    }
+  };
+
+  window.addEventListener("deviceorientation", handleOrientation, true);
+  /*
+    function handleOrientation(event) {
+      var absolute = event.absolute;
+      var alpha = event.alpha;
+      var beta = event.beta;
+      var gamma = event.gamma;
+
+      imgSVG.setAttribute('y', 'skewY('
+        event.gamma ') skewX('
+        event.beta ')');
+      //imgSVG.setAttribute('x', event.beta - 250);
+    }*/
+</script>
+
+</html>
