@@ -39,44 +39,32 @@
       Slide 5
     </li>
   </ul>
-<script type="text/javascript" src="js/three.min.js"></script>
-<script type="text/javascript" src="js/GLTFLoader.js"></script>
-<script type="text/javascript">
+  <script src="js/three.min.js"></script>
+  <script src="js/GLTFLoader.js"></script>
+  <script type="text/javascript">
+    let scene, camera, renderer;
 
-var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+    function init() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xdddddd);
 
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
+      camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 1, 5000);
 
-    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
+      hlight = new THREE.AmbientLight (0x404040, 100);
+      scene.add(hlight);
 
-    var loader = new THREE.GLTFLoader();
-    loader.load('img/al.gltf', handle_load);
-    var mesh
-    function handle_load(gltf) {
-        mesh = gltf.scene.children[0];
-        mesh.material = new THREE.MeshLambertMaterial();
-        scene.add(mesh);
+      renderer = new THREE.WebGLRenderer({antialias:true});
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      let loader = new THREE.GLTFLoader();
+      loader.load('al.gltf', function(gltf){
+        scene.add(gltf.scene);
+        renderer.render(scene, camera);
+      });
     }
-
-    camera.position.z = 5;
-
-    var animate = function () {
-      requestAnimationFrame( animate );
-
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-
-      renderer.render( scene, camera );
-    };
-
-    animate();
-</script>
+    init();
+  </script>
 </body>
 
 </html>
