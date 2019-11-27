@@ -70,8 +70,10 @@
 
       let loader = new THREE.GLTFLoader();
       loader.load('al.gltf', function(gltf){
-        al = gltf.scene.children[0,1];
-        al.scale.set(30, 30, 30);
+        aLetter = gltf.scene.children[0];
+        aLetter.scale.set(30, 30, 30);
+        lLetter = gltf.scene.children[1];
+        lLetter.scale.set(30, 30, 30);
         scene.add(gltf.scene);
         renderer.render(scene, camera);
       });
